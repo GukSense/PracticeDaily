@@ -1,0 +1,117 @@
+package test2;
+
+/*
+문제 1.
+음료를 뽑을 수 있는 자판기 프로그램을 만들어 주세요.
+
+제공되는 음료 외의 번호 입력 시 발생되는 사용자 정의 예외 클래스를 작성해 주세요.
+
+잔액이 부족할 경우 발생되는 사용자 정의 예외 클래스를 작성해 주세요.
+
+각각의 예외 발생에 대해 예외처리하는 코드를 작성해 주세요.
+*/
+import java.util.Scanner;
+
+public class ThrowsTest {
+	
+	public static void main(String[]args) {
+		while(true) {
+			User user = null;
+			
+			user = VendingMachine.form();
+		}
+	}
+}
+
+class VendingMachine {
+	
+	public static final int COKE = 1; 
+	public static final int SPRITE = 2;
+	public static final int ORANGEJUICE =3;
+	public static final int SIKHYE = 4;
+	public static final int TOLETA = 5;
+	
+	
+	public static User form() {
+		Scanner scanner = new Scanner(System.in);
+		User user = new User();
+		
+		System.out.println(" ==== SamSung 'beverage vending machine' 입니다. ====");
+		System.out.println("원하시는 음료를 선택하여주세요 1: 콜라 2: 사이다 3: 오렌지쥬스 4: 토레타  5: 식혜");
+		user.setBeverage(scanner.nextInt()); 
+		System.out.println("선택하신 음료수의 가격은 "   );
+		
+		
+		return user;
+	}
+	
+	
+	
+	
+	public static void selectBeverage(User user) {
+		
+	}
+}
+
+class User {
+	private int beverage;
+	private int select;
+	
+	
+	//setter & getter beverage;
+	public int getBeverage() {
+		return beverage;
+	}
+
+	public void setBeverage(int beverage) {
+		this.beverage = beverage;
+	}
+	
+	public void test() {
+		int price = 0; 
+		
+		switch(select) {
+			case VendingMachine.COKE:
+				price = 800;
+				break;
+			case VendingMachine.SPRITE:
+				price= 800;
+				break;
+			case VendingMachine.ORANGEJUICE:
+				price = 1000;
+				break;
+			case VendingMachine.SIKHYE:
+				price = 1000;
+				break;
+			case VendingMachine.TOLETA:
+				price = 900;
+				break;
+		}
+	
+	
+	}
+}
+//Enum
+enum Beverage  {
+	Coke, Sprite, OrangeJuice, Sikhye ,Toleta;
+	
+	
+}
+
+//제공되는 음료 외의 번호 입력 시 발생되는 사용자 정의 예외 클래스를 작성해 주세요.
+class NumMismatchException extends Exception {
+	public NumMismatchException(String message){
+		super(message);
+	}
+	
+}
+
+
+
+//잔액이 부족할 경우 발생되는 사용자 정의 예외 클래스를 작성해 주세요.
+class BalanceMismatchException extends Exception {
+	
+	public BalanceMismatchException(String message){
+		super(message);
+	}
+}
