@@ -1,0 +1,215 @@
+package test2;
+
+import java.util.Scanner;
+
+/*
+문제 1.
+자판기 프로그램에 연결 예외를 적용해 주세요.
+*/
+
+public class ChainedExceptionTest {
+	
+	public static void main(String[]args) {
+		Scanner scanner = new Scanner(System.in);
+		User4 user = new User4();
+		
+		VendingMachine4.putPrice(user);
+				
+		while(true) {
+		
+			VendingMachine4.form(user);
+			try {
+				VendingMachine4.filter(user);
+			} catch(VendingMachineException e) {
+				System.out.println("문의사항은 010-****-****");
+				e.printStackTrace();
+			}
+			
+			System.out.println("음료를 추가로 구매하시겠습니까? " + "\n1->YES \n2->No" );
+			
+			user.setKeepGoing(scanner.nextInt());
+			
+			if(!user.isKeepGoing()) {
+				break;
+			}
+		}
+		
+		System.out.println("이용해주셔서 감사합니다.");
+	}
+}
+
+class VendingMachine4 {
+	private User4 user;
+	
+	public static User4 putPrice(User4 user) {
+		Scanner scanner = new Scanner(System.in);				
+			System.out.println(" ==== SamSung 'beverage vending machine' 입니다. ====");
+			System.out.println("원하시는 금액을 넣어주세요.");
+			user.putPrice(scanner.nextInt());
+			System.out.println("현재잔액은 " + user.getBalance() + "입니다.");
+		
+			return user;
+	}
+	
+	public static User4 form(User4 user) {
+		Scanner scanner = new Scanner(System.in);
+		
+
+		System.out.println("원하시는 음료를 선택하여주세요 1: 콜라 2: 사이다 3: 오렌지쥬스 4: 토레타  5: 식혜");
+
+		while (scanner.hasNext()) {
+			try {
+				user.setBeverage(Beverage4.of(scanner.nextInt()));
+				break;
+			} catch (ArrayIndexOutOfBoundsException e) {
+				//e.printStackTrace();
+				System.out.print("없는 메뉴입니다. 메뉴판에있는 번호만 입력해주세요: ");
+			}
+		}
+		 
+		System.out.println("선택하신 음료수의 가격은 " + user.test() + "입니다. 구매하시겠습니까?");
+		
+		if(user.getPrice() <= user.getBalance()) {
+			user.setBalance(user.getPrice());
+			System.out.println("======= 구매중 =======");
+		}	
+		
+		if(user.getBalance() > 0)
+			System.out.println("현재 잔액은 " + user.getBalance() + "입니다.");
+		
+		return user;
+	}
+	
+	public static void filter(User4 user) throws VendingMachineException {
+		try {
+			
+			if (user.getBalance() < user.getPrice()) 
+				throw new BalanceMismatchException4("\n잔액이 부족합니다");
+				
+			} catch(BalanceMismatchException4 e) {
+				System.out.println("잔액을 충전하시겠습니까?");	
+				throw new VendingMachineException("자판기오류발생!!", e);
+			}
+		 			
+	}
+}
+	
+
+
+class User4 {
+	
+	private Beverage4 beverage;
+	private int price;
+	private int balance;
+	private boolean keepGoing;
+	
+	
+	
+	public boolean isKeepGoing() {
+		
+		return keepGoing;
+	}
+
+	public void setKeepGoing(int select) {
+		
+		boolean selectYesOrNot = true;
+		switch(select) {
+			case 1:
+				selectYesOrNot = true;
+				break;
+			case 2:
+				selectYesOrNot = false;
+				break;
+			default:
+				System.out.println("잘못선택하셨습니다.");
+		}
+		keepGoing = selectYesOrNot;
+		
+	}
+
+	public int getBalance() {
+		return balance;
+	}
+
+	public void setBalance(int price) {
+		balance -= price;
+		
+	}
+
+	//setter & getter beverage;
+	public Beverage4 getBeverage() {
+		return beverage;
+	}
+
+	public void setBeverage(Beverage4 beverage) {
+		this.beverage = beverage;
+	}
+	
+	public int test() {
+		int beveragePrice = 0; 
+		
+		switch(beverage) {
+			case COKE:
+				beveragePrice = 800;
+				break;
+			case SPRITE:
+				beveragePrice= 800;
+				break;
+			case ORANGEJUICE:
+				beveragePrice = 1000;
+				break;
+			case SIKHYE:
+				beveragePrice = 1000;
+				break;
+			case TOLETA:
+				beveragePrice = 900;
+				break;
+		}
+		price = beveragePrice;
+		return price;
+	}
+	
+	public void putPrice(int price) {
+		balance = price;
+		this.price = price;
+	}
+	
+	public int getPrice() {
+		return price;
+	}
+	
+	
+}
+
+
+//Enum
+enum Beverage4  {
+	COKE, SPRITE, ORANGEJUICE, SIKHYE ,TOLETA; 
+	private static Beverage4[] beverage = Beverage4.values();
+	static User user;
+	 
+	public static Beverage4 of(int index) throws ArrayIndexOutOfBoundsException {
+		return beverage[index-1];
+	}
+	
+}
+
+class VendingMachineException extends Exception {
+	VendingMachineException(String message, Exception e){
+		super(message, e);
+	}
+}
+
+class NumMismatchException4 extends Exception {
+	public NumMismatchException4(String message){
+		super(message);
+	}
+	
+}
+
+class BalanceMismatchException4 extends Exception {
+	
+	public BalanceMismatchException4(String message){
+		super(message);
+	}
+}
