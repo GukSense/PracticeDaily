@@ -1,0 +1,59 @@
+package test2;
+
+public class EqualsTest {
+
+	public static void main(String[] args) {
+		/*
+		문제 1.
+		원하는 클래스를 만드세요.
+		인스턴스 두 개를 생성하세요.
+		equals 메소드를 오버라이딩하여 인스턴스 변수들의 값이 모두 같을 시 true 를 반환하도록 코딩하세요. 
+		*/
+		
+		Nba n1 = new Nba("골든스테이트 워리어스", "스테픈 커리");
+		Nba n2 = new Nba("댈러스 매버릭스", "루카 돈치치");
+		
+		System.out.println(n1.equals(n2));
+		
+		n2.setTeams("골든스테이트 워리어스");
+		n2.setPlayer("스테픈 커리");
+		
+		System.out.println(n1.equals(n2));
+		
+		
+		
+	}
+
+}
+
+
+class Nba {
+	private String teams;
+	private String player;
+	
+	public Nba(String teams, String player) {
+		this.teams = teams;
+		this.player = player;
+	}
+	
+	public void setTeams(String teams) {
+		this.teams = teams;
+	}
+
+	public void setPlayer(String player) {
+		this.player = player;
+	}
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if(!(obj instanceof Nba))
+			return false;
+		
+		Nba nba = (Nba)obj;
+		
+		boolean result = teams.equals(nba.teams) && player.equals(nba.player);
+		return result;
+	}
+}
