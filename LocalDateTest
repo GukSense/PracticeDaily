@@ -1,0 +1,56 @@
+package test3;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+
+import java.util.Scanner;
+
+public class LocalDateTest {
+
+	public static void main(String[] args) {
+		/*
+		문제 1.
+		2000년 12월 1일 
+		2020년 5월 6일 
+		두 날짜 간의 차이를 계산하여 n년 n일과 같은 패턴으로 출력하세요. 
+		문제 2.
+		yyyy년MM월dd 패턴으로 입력 받아 1개월 뒤의 날짜를 yyyy/MM/dd HH:mm:ss 패턴으로 출력하세요.
+		*/
+		
+		LocalDate d1 = LocalDate.of(2000, 12, 1); 
+		System.out.println(d1);
+		
+		LocalDate d2 = LocalDate.of(2020, 5, 6);
+		System.out.println(d2);
+		
+		System.out.println(ChronoUnit.YEARS.between(d1, d2) + "년");
+		System.out.println(ChronoUnit.DAYS.between(d1, d2) + "일");
+		System.out.println();
+		System.out.println(d1.until(d2, ChronoUnit.YEARS) + "년");
+		System.out.println(d1.until(d2, ChronoUnit.DAYS) + "일");
+		System.out.println();
+		
+		Period p = d1.until(d2);
+		System.out.println(p.getYears() + "년 " + p.getMonths() + "월 " + p.getDays() + "일");
+		
+		DateTimeFormatter df1 = DateTimeFormatter.ofPattern("yyyy년MM월dd일");
+		DateTimeFormatter df2 = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss");
+		Scanner scanner = new Scanner(System.in);
+		//yyyy년MM월dd 패턴으로 입력
+		System.out.println("yyyy년MM월dd일 패턴으로 날짜를 입력해주세요: ");
+		String inputDate = scanner.nextLine();
+		LocalDate d3 = LocalDate.parse(inputDate, df1);
+		//1개월 뒤의 날짜
+		LocalDate d4 = d3.plusMonths(1);
+		System.out.println(d4);
+		
+		//yyyy/MM/dd HH:mm:ss 패턴으로 출력
+		LocalDateTime dateTime1 = d4.atStartOfDay();	// LocalDate 는 시분초가없기때문에 atStartOfDay()로 시분초를 set해준다.
+		System.out.println(df2.format(dateTime1));
+	
+	}
+
+}
