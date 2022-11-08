@@ -1,0 +1,140 @@
+package test3;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Iterator;
+
+public class ListTest {
+
+	public static void main(String[] args) {
+		/*
+		문제 1.
+		Book 타입 인스턴스 10개를 생성하여 배열에 저장합니다.
+		배열을 ArrayList로 변경합니다.
+		foreach 문을 사용하여 리스트에 저장된 모든 책들을 출력합니다.
+		Book의 저자가 엘컴퓨터학원인 것을 제외한 나머지 책은 모두 삭제합니다.
+		리스트에 남아 있는 책들을 출력합니다.
+		힌트) 삭제 시 foreach문은 예외가 발생될 수 있습니다.
+		*/
+		
+		Book t1 = new Book("테스트1", "테스트1", 19800);
+		Book t2 = new Book("테스트2", "테스트2", 20000);
+		Book t3 = new Book("테스트3", "테스트3", 21000);
+		Book t4 = new Book("테스트4", "테스트4", 22000);
+		Book t5 = new Book("테스트5", "테스트5", 23000);
+		Book t6 = new Book("테스트6", "테스트6", 24000);
+		Book t7 = new Book("테스트7", "테스트7", 25000);
+		Book t8 = new Book("테스트8", "테스트8", 26000);
+		Book t9 = new Book("테스트9", "테스트9", 27000);
+		Book t10 = new Book("테스트10", "테스트10", 28000);
+		
+		
+		
+		
+		System.out.println(t1.toString());
+		Cart cart = new Cart();
+		cart.add(t1);
+		cart.add(t2);
+		cart.add(t3);
+		cart.add(t4);
+		cart.add(t5);
+		cart.add(t6);
+		cart.add(t7);
+		cart.add(t8);
+		cart.add(t9);
+		cart.add(t10);
+		
+		cart.getAllBooks();
+		System.out.println(cart.getAllBooks());
+		
+		
+		Book[] arrBooks = {
+				new Book("테스트1", "테스트1", 19800),
+				new Book("테스트2", "테스트2", 20000),
+				new Book("테스트3", "엘컴퓨터학원", 21000),
+				new Book("테스트4", "테스트4", 22000),
+				new Book("테스트5", "테스트5", 23000),
+				new Book("테스트6", "엘컴퓨터학원", 24000),
+				new Book("테스트7", "테스트7", 25000),
+				new Book("테스트8", "테스트8", 26000),
+				new Book("테스트9", "테스트9", 27000),
+				new Book("테스트10", "테스트10", 28000)
+		};
+		
+		List <Book> books2 = new ArrayList<Book>(Arrays.asList(arrBooks));	//asList는 쉽게 설명하면 읽기전용 수정이 불가능
+		Cart.printAllwithForEach(books2);
+		Cart.Iterator(books2);
+		
+		
+	}
+
+}
+
+class Book {
+	private String title;
+	private String author;
+	private int price;
+	
+	Book(String title, String author, int price){
+		this.title = title;
+		this.price = price;
+		this.author = author;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+	
+	
+	public String getAuthor() {
+		return author;
+	}
+	
+	
+	public int getPrice() {
+		return price;
+	}
+	
+	@Override
+	public String toString() {
+		return "[타이틀: " + title + " 저자: " + author + " 가격: " + price + "]"+ " \n";
+	}
+	
+}
+
+class Cart {
+	private List<Book> books;
+	
+	public Cart() {
+		books = new ArrayList<Book>(9);
+	}
+	
+	public void add(Book book) {
+		books.add(book);
+	}
+	
+	public List<Book> getAllBooks(){
+		return books;
+	}
+	
+	public static void printAllwithForEach(List<Book> books) {
+		System.out.println("=== Allprint use the ForEach ===");
+		for(Book book : books) {
+			System.out.println(book);
+		}
+	}
+	
+	public static void Iterator(List<Book> books) {
+		System.out.println("=== Iterator ===");
+		for(Iterator<Book> it = books.iterator(); it.hasNext();) {
+			Book book = it.next();
+			if(!(book.getAuthor().equals("엘컴퓨터학원"))) 
+				it.remove();
+		}
+		System.out.println(books.toString());
+	}
+	
+	
+	
+}
