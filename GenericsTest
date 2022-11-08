@@ -1,0 +1,100 @@
+package test3;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class GenericsTest {
+
+	public static void main(String[] args) {
+		/*
+		문제 1.
+		상자에 연필과 티비를 담는 프로그램을 코딩하세요.
+		상자에는 연필, 티비 외에 어떠한 타입도 받을 수 있도록 타입 파라미터를 사용하세요. 
+		*/	
+		
+		//Pencil
+		//Tv
+		
+	Pencil[] ArrPencil = {
+			new Pencil("모나미", 1000),
+			new Pencil("하이테크", 1200),
+	};
+	
+	Box<Pencil> box1 = new Box<Pencil>(ArrPencil);
+	box1.printAllItem();
+	
+	
+	Tv[] ArrTv = {
+			new Tv("LG Tx-80", 560000),
+			new Tv("Samsung GTO-250", 750000),
+	};
+		
+	Box<Tv> box2 = new Box<Tv>(ArrTv);
+	box2.printAllItem();
+	
+	
+	//List select 배열번호?
+	System.out.println(box2.get(0));
+	}
+
+}
+
+
+class Pencil {
+	
+	private String title;
+	private int price;
+
+	public Pencil(String title, int price) {
+		this.title = title;
+		this.price = price;
+	}
+	
+	@Override
+	public String toString() {
+		return "상품명: [" + title + " 가격: " + price + "]";
+	}
+	
+}
+class Tv {
+	private String title;
+	private int price;
+	
+	public Tv(String title, int price) {		
+		this.title = title;
+		this.price = price;
+	}
+	
+	@Override
+	public String toString() {
+		return "상품명: [" + title + " 가격: " + price + "]";
+	}
+	
+}
+
+class Box<T> {
+	private List<T> items;
+	
+	public Box() {
+		items = new ArrayList<T>();
+	}
+	public Box(T[] arr) {
+		items = new ArrayList<T>(Arrays.asList(arr));
+	}
+	
+	public void add(T item) {
+		items.add(item);
+	}
+	
+	public T get(int index) {
+		return items.get(index);
+	}
+	
+	public void printAllItem() {
+		 for(T item : items) {
+			 System.out.println(item.toString());
+		 }
+		 System.out.println();
+	}
+}
