@@ -1,0 +1,92 @@
+/*
+		문제 1.
+		마지막 컨텐츠를 삭제하는 기능을 플레이어에 추가하세요.
+		문제 2.
+		컨텐츠를 거꾸로 출력하세요.
+		힌트) Collections.reverse()
+		*/
+
+		//문제1
+		Player.deleteThelastList(musicList);
+		Player.play(musicList);
+		//
+		List<Content> contents = new ArrayList<Content>();
+		contents.add(new Music("노래3"));
+		contents.add(new Music("노래4"));
+		
+		Player.addRecommendedContent(contents);
+		Player.play(contents);
+		//문제2
+		System.out.println("=== TEST 2 ===");
+		Collections.reverse(contents);
+		Player.play(contents);
+		//
+    
+   public static void deleteThelastList(List<? super Music > playList) {
+        System.out.println("===TEST 1 ===");
+        playList.remove(playList.size()-1);	
+}
+
+
+// Generics Test
+/*
+		문제 1.
+		다이어리 클래스와 다이어리 서비스 클래스를 추가하세요. 
+		다이어리 서비스를 사용해 printList2 와 printList3를 호출하는 코드를 작성하세요.
+		*/
+		//TEST1 
+		Diary d1 = new Diary();
+		d1.setTitle("20221110");
+		d1.setContents("it was so sad day");
+		
+		List<Diary> dList = new ArrayList<Diary>();
+		dList.add(d1);
+		service = new DiaryService();
+		System.out.println("==TEST==");
+		service.printList2(dList);
+		service.printList3(dList);
+		
+		
+		
+		class Diary {
+	private String title;
+	private String contents;
+	
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	public String getContents() {
+		return contents;
+	}
+	public void setContents(String contents) {
+		this.contents = contents;
+	}
+	
+	public String toString() {
+		return "Diary [title = " + title + " content = " + contents + "]";
+	}
+}
+
+class DiaryService implements BoardDefaultService {
+	
+	
+	
+	@Override
+	public void printList3(List<?> diaryList) {
+		System.out.println("printList3");
+		for(Object obj : diaryList) {
+			if (!(obj instanceof Diary))
+				return;
+			Diary diary = (Diary)obj;
+			
+			System.out.println(diary.getTitle());
+			System.out.println(diary.getContents());
+			System.out.println("-----");
+		}
+		
+		System.out.println();
+	}
