@@ -1,0 +1,28 @@
+/*
+		문제 1.
+		마지막 컨텐츠를 삭제하는 기능을 플레이어에 추가하세요.
+		문제 2.
+		컨텐츠를 거꾸로 출력하세요.
+		힌트) Collections.reverse()
+		*/
+
+		//문제1
+		Player.deleteThelastList(musicList);
+		Player.play(musicList);
+		//
+		List<Content> contents = new ArrayList<Content>();
+		contents.add(new Music("노래3"));
+		contents.add(new Music("노래4"));
+		
+		Player.addRecommendedContent(contents);
+		Player.play(contents);
+		//문제2
+		System.out.println("=== TEST 2 ===");
+		Collections.reverse(contents);
+		Player.play(contents);
+		//
+    
+    public static void deleteThelastList(List<? super Music > playList) {
+        System.out.println("===TEST 1 ===");
+        playList.remove(playList.size()-1);	
+	  }
