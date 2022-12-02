@@ -1,0 +1,114 @@
+package test4;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+public class ComparatorTest {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		/*
+		문제 1.
+		학생들을 Comparator 를 이용해 정렬하여 출력하세요.
+		번호 내림차순, 이름 오름차순으로 정렬하여 출력하세요.
+		문제 2.
+		번호 내림차순, 이름 내림차순으로 정렬하는 Comparator 를 이용해 출력하세요.
+		Comparator 는 익명클래스로 작성하세요.
+		문제 3.
+		PriorityQueue에 책들을 입력하세요.
+		Queue에서 책의 가격이 높은 책 부터 제거되도록 코딩하세요.
+		Comparable을 이용해 가격이 높은 책부터 제거되도록 작성하세요. 
+		Comparator를 이용해 가격이 낮은 책부터 제거되도록 코딩하세요.
+		*/
+		
+		List<Student3> studentList = new ArrayList<>();
+		Collections.addAll(studentList, new Student3(1 ,"강국"), new Student3(1 ,"동민"), new Student3(2 ,"대영"), new Student3(3 ,"건주"), new Student3(4 ,"정훈"));
+		Collections.shuffle(studentList);
+		System.out.println(studentList + " 셔플");
+		
+		Collections.sort(studentList, new DescendingNo());
+		System.out.println(studentList + " 번호 내림차순, 이름 오름차순");
+		System.out.println();
+
+		Collections.sort(studentList, new Comparator<Student3>() {
+			@Override
+			public int compare(Student3 s1, Student3 s2) {
+				int result = Integer.valueOf(s1.getNo()).compareTo(s2.getNo()) * -1;
+					if(result == 0)
+						result = s1.getName().compareTo(s2.getName()) * -1;
+				return result;
+			}
+		});
+		System.out.println(studentList + " 번호 내림차순, 이름 내림차순");
+		
+		
+	
+	
+	}
+
+}
+
+class DescendingNo implements Comparator<Student3> {
+	@Override
+	public int compare(Student3 s1, Student3 s2) {
+		int result = Integer.valueOf(s1.getNo()).compareTo(s2.getNo()) * -1;
+			if(result == 0)
+				s1.getName().compareTo(s2.getName());
+		return result;
+	}
+}
+
+
+class Student3 implements Comparable<Student3>{
+	private String name;
+	private int no;
+	
+	public Student3(int no, String name) {
+		this.no = no;
+		this.name = name;
+	}
+	public String getName() {
+		return name;
+	}
+	public int getNo() {
+		return no;
+	}
+	@Override
+	public int compareTo(Student3 s) {
+		int result = Integer.valueOf(s.getNo()).compareTo(s.getNo());
+			if(result == 0)
+				result = s.getName().compareTo(s.getName());
+		return result;
+	}
+	
+	public String toString() {
+		return "(" + no + ", " + name + ")";
+	}	
+}
+class Book implements Comparable<Book> {
+	private String title;
+	private int price;
+	
+	public Book(String title, int price){
+		this.title = title;
+		this.price = price;
+	}
+		
+	public String getTitle() {
+		return title;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+	
+	public int compareTo(Book b) {
+		int result = Integer.valueOf(price).compareTo(b.price);
+			return result;
+	}
+	public String toString() {
+		return "제목: " + title + " 가격: " + price;
+	}
+}
