@@ -1,0 +1,53 @@
+package test4;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class ComparableTest {
+
+	public static void main(String[] args) {
+		/*
+		문제 1.
+		번호와 이름을 가진 학생 클래스를 만드세요.
+		학생의 번호를 오름차순으로 정렬하여 출력하세요.
+		번호가 같을 경우 이름을 내림차순으로 정렬하여 출력하세요.
+		*/
+		
+		List<Student2> students = new ArrayList<>();
+		Collections.addAll(students, new Student2("건주", 2), new Student2("대영",3), new Student2("정훈", 4), new Student2("동민",1), new Student2("강국", 1) );
+		Collections.sort(students);
+		System.out.println(students);
+
+	}
+
+}
+
+class Student2 implements Comparable<Student2>{
+	private String name;
+	private int no;
+	
+	public Student2(String name, int no) {
+		this.name = name;
+		this.no = no;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	public int getNo() {
+		return no;
+	}
+	@Override
+	public int compareTo(Student2 s) {
+		int result = Integer.valueOf(no).compareTo(Integer.valueOf(s.getNo()));
+		if(result == 0) 
+			result = name.compareTo(s.getName())* -1;
+		return result;
+	}
+	
+	@Override
+	public String toString() {
+		return "이름: " + name + " 번호: " + no;
+	}
+}
