@@ -1,0 +1,3 @@
+		System.out.println("\u20a9");
+		DecimalFormat df = new DecimalFormat(new DecimalFormatSymbols(Locale.KOREA).getCurrencySymbol() + "####");
+		System.out.println(df.format(50000000));
