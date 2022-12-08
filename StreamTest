@@ -1,0 +1,128 @@
+package test5;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
+
+public class StreamTest {
+
+	public static void main(String[] args) {
+		/*
+		문제 1.
+		스트림에 '가', '나', '다' 를 추가하는 코드를 작성하세요.
+		문제 2.
+		스트림을 사용하여 1~100 사이의 숫자 중 난수 10개를 출력하세요.
+		문제 3.
+		자동차 인스턴스 5개를 가진 배열을 만들고 스트림으로 변환하세요.
+		500원 보다 비싼 차량들을 출력하세요.
+		문제 4.
+		자동차 이름을 중복 제거 후 출력하세요.
+		문제 5.
+		자동차 인스턴스로 이뤄진 스트림을 자동차 금액들로만 이뤈진 스트림으로 변환 후 3개만 출력하세요.
+		문제 6.
+		스트림에 저장된 자동차명의 모든 글자를 나누어 한 글자씩 출력하되 오름차순으로 정렬하여 출력하세요.
+		힌트) flatMap, sorted 를 사용하세요.
+		
+		
+		문제 7.
+		스트림에서 특정 차량이름을 검색하여 출력하세요.
+		*/
+		
+		
+		
+		
+		System.out.println("< 가, 나, 다 추가>");
+		Stream<String> stream = Stream.of("가","나","다");
+		stream.forEach(str -> System.out.print(str + ", "));
+		System.out.println();
+		
+		System.out.println("< 스트림을 사용하여 1~100 사이의 숫자 중 난수 10개를 출력 >");
+		Stream<Integer> lottoStream = Stream.generate(()-> (int)(Math.random()*100));
+			lottoStream.limit(10)
+			.forEach(i -> System.out.print(i + ", "));
+//		Stream<Integer> lottoStream = Stream.generate(()-> (int)(Math.random()*100))
+//		.limit(10);
+//		lottoStream.forEach(System.out::println);		
+		
+		List<Car> car = new ArrayList<>();
+		car.add(new Car("소나타", 3000));
+		car.add(new Car("산타페", 4500));
+		car.add(new Car("k9", 7000));
+		car.add(new Car("제네시스g80", 8000));
+		car.add(new Car("제네시스g80", 8000));
+		car.add(new Car("티코", 500));
+		
+		car
+			.stream()
+			.filter(c-> c.getPrice() > 500)
+			.forEach(System.out::println);
+		System.out.println();
+		
+		car
+			.stream()
+			.distinct()			
+			.forEach(System.out::println);
+		System.out.println();
+			
+		car
+			.stream()
+			.limit(3)
+			.map(Car::getPrice)
+			.forEach(System.out::println);
+		System.out.println();
+		
+		car	
+			.stream()
+			.flatMap(c -> c.getName().chars().mapToObj(i->(char)i))	//char는 primitive type이기 때문에 Stream으로 변경이 불가능
+			.sorted()
+			.forEach(System.out::println);
+		System.out.println();
+		car
+			.stream()
+			.filter(c -> c.getName().startsWith("소나타"))
+			.forEach(System.out::println);
+		System.out.println();
+	}
+
+}
+
+class Car implements Comparable<Car> {
+	private String name;
+	private int price;
+	
+	public Car(String name, int price) {
+		this.name = name;
+		this.price = price;
+	}
+
+	public String getName() {
+		return name;
+	}
+	public int getPrice() {
+		return price;
+	}
+
+	@Override
+	public String toString() {
+		return "[name = " + name + "] [price = " + price + "]";
+	}
+	@Override
+	public int compareTo(Car c) {
+		return name.compareTo(c.name);
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(name, price);
+	}
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof Car))
+			return false;
+		Car c = (Car)o;
+		return name.equals(c.getName()) || (price == (c.price));
+	}
+
+}
