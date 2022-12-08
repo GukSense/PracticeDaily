@@ -76,7 +76,7 @@ public class StreamTest {
 		
 		car	
 			.stream()
-			.flatMap(c -> c.getName().chars().mapToObj(i->(char)i))	//char는 primitive type이기 때문에 Stream으로 변경이 불가능
+			.flatMap(c -> c.getName().chars().mapToObj(i->(char)i))	//char는 primitive type이기 때문에 Stream으로 변경이 불가능 //car.getName() 을 intStream의 유니코드타입 char로 변환 -> mapToObj 로 타겟을 char로 바꿔줌으로 wrapper character 타입 stream으로 변환
 			.sorted()
 			.forEach(System.out::println);
 		System.out.println();
